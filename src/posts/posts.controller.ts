@@ -11,31 +11,34 @@ import {
 import GetPostDto from './DTO/get-posts.dto';
 import CreatePostDto from './DTO/create-post.dto';
 import UpdatePostDto from './DTO/update-post.dto';
+import { PostsService } from './posts.service';
 
 @Controller('posts')
 export class PostsController {
+  constructor(private readonly postsService: PostsService) {}
+
   @Get()
-  getAllosts(@Query() getPostsDto: GetPostDto) {
-    return `This action returns all posts`;
+  getAllPosts(@Query() getPostsDto: GetPostDto) {
+    return this.postsService.getAllPosts(getPostsDto);
   }
 
   @Get(':id')
   getPostById(@Param('id') id: string) {
-    return `This action returns a post by ${id}`;
+    return this.postsService.getPostById(id);
   }
 
   @Post()
   createPost(@Body() createPostDto: CreatePostDto) {
-    return createPostDto;
+    return this.postsService.createPost(createPostDto);
   }
 
   @Patch(':id')
   updatePost(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return 'This action updates a post';
+    return this.postsService.updatePost(id, updatePostDto);
   }
 
   @Delete(':id')
   deletePost(@Param('id') id: string) {
-    return 'This action removes a post';
+    return this.postsService.deletePost(id);
   }
 }
